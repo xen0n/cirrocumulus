@@ -1,0 +1,23 @@
+language: python
+
+python:
+  - "2.7"
+  - "3.2"
+  - "3.3"
+  - "pypy"
+
+matrix:
+  allow_failures:
+    # mysterious RPython KeyError's may happen
+    - python: pypy
+
+install:
+  - pip install -r requirements.txt --use-mirrors
+
+script: nosetests --with-coverage --cover-package=cirrocumulus
+
+notifications:
+  email: false
+
+
+# vim:set ai et ts=2 sw=2 sts=2 fenc=utf-8:
