@@ -26,7 +26,7 @@ class TestActionModule(Case):
             assert False, 'BaseAction should not be instantiable'
         except TypeError:
             pass
-        except:
+        except:  # pragma: no cover
             raise
 
     def test_MetaAction_valid_action(self):
@@ -35,13 +35,13 @@ class TestActionModule(Case):
                 name = 'dummy1'
 
                 @classmethod
-                def instantiate(cls, template):
+                def instantiate(cls, template):  # pragma: no cover
                     return cls()
 
-                def describe(self):
+                def describe(self):  # pragma: no cover
                     return ''
 
-                def execute(self, executor, env):
+                def execute(self, executor, env):  # pragma: no cover
                     return 0, None, env
         except:
             assert False, 'correctly declared action class does not validate'
@@ -70,21 +70,22 @@ class TestActionModule(Case):
             assert False, 'action class without name should not validate'
         except TypeError:
             pass
-        except:
+        except:  # pragma: no cover
             raise
+
     def test_MetaAction_invalid_action_with_wrongly_typed_name(self):
         try:
             class InvalidActionWithWronglyTypedName(action.BaseAction):
                 name = b'illegal_name'
 
                 @classmethod
-                def instantiate(cls, template):
+                def instantiate(cls, template):  # pragma: no cover
                     return cls()
 
-                def describe(self):
+                def describe(self):  # pragma: no cover
                     return ''
 
-                def execute(self, executor, env):
+                def execute(self, executor, env):  # pragma: no cover
                     return 0, None, env
 
             assert False, (
@@ -92,7 +93,7 @@ class TestActionModule(Case):
                     )
         except TypeError:
             pass
-        except:
+        except:  # pragma: no cover
             raise
 
     def test_MetaAction_valid_abstract_action(self):
@@ -101,13 +102,13 @@ class TestActionModule(Case):
                 abstract = True
 
                 @classmethod
-                def instantiate(cls, template):
+                def instantiate(cls, template):  # pragma: no cover
                     return cls()
 
-                def describe(self):
+                def describe(self):  # pragma: no cover
                     return ''
 
-                def execute(self, executor, env):
+                def execute(self, executor, env):  # pragma: no cover
                     return 0, None, env
         except:
             assert False, (
@@ -122,7 +123,7 @@ class TestActionModule(Case):
             assert False, 'abstract action class should not be instantiable'
         except TypeError:
             pass
-        except:
+        except:  # pragma: no cover
             raise
 
         # test subclassing
@@ -149,19 +150,19 @@ class TestActionModule(Case):
                 abstract = True
 
                 @classmethod
-                def instantiate(cls, template):
+                def instantiate(cls, template):  # pragma: no cover
                     return cls()
 
-                def describe(self):
+                def describe(self):  # pragma: no cover
                     return ''
 
-                def execute(self, executor, env):
+                def execute(self, executor, env):  # pragma: no cover
                     return 0, None, env
 
             assert False, 'abstract action class with name should not validate'
         except TypeError:
             pass
-        except:
+        except:  # pragma: no cover
             raise
 
 
