@@ -43,27 +43,27 @@ class TestActionModule(Case):
 
                 def execute(self, executor, env):  # pragma: no cover
                     return 0, None, env
-        except:
+        except:  # pragma: no cover
             assert False, 'correctly declared action class does not validate'
 
         assert not ValidAction.abstract
 
         try:
             ValidAction()
-        except:
+        except:  # pragma: no cover
             assert False, 'concrete action class failed to instantiate'
 
     def test_MetaAction_invalid_action_without_name(self):
         try:
             class InvalidActionWithoutName(action.BaseAction):
                 @classmethod
-                def instantiate(cls, template):
+                def instantiate(cls, template):  # pragma: no cover
                     return cls()
 
-                def describe(self):
+                def describe(self):  # pragma: no cover
                     return ''
 
-                def execute(self, executor, env):
+                def execute(self, executor, env):  # pragma: no cover
                     return 0, None, env
 
             assert False, 'action class without name should not validate'
@@ -109,7 +109,7 @@ class TestActionModule(Case):
 
                 def execute(self, executor, env):  # pragma: no cover
                     return 0, None, env
-        except:
+        except:  # pragma: no cover
             assert False, (
                     'correctly declared abstract action class does not'
                     ' validate'
@@ -130,7 +130,7 @@ class TestActionModule(Case):
         try:
             class ValidSubclassedAction(ValidAbstractAction):
                 name = 'dummy2_1'
-        except:
+        except:  # pragma: no cover
             assert False, (
                     'correctly declared action subclass does not validate'
                     )
@@ -139,7 +139,7 @@ class TestActionModule(Case):
 
         try:
             ValidSubclassedAction()
-        except TypeError:
+        except TypeError:  # pragma: no cover
             assert False, 'action subclass failed to instantiate'
 
     def test_MetaAction_invalid_abstract_action_with_name(self):
