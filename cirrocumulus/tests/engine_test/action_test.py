@@ -18,6 +18,18 @@ class TestActionModule(Case):
     def teardown_class(cls):
         pass
 
+    def test_ActionTemplate_ctor(self):
+        name = 'test'
+        params = {}
+
+        obj1 = action.ActionTemplate(name)
+        obj2 = action.ActionTemplate(name, params)
+
+        assert obj1.action is name
+        assert obj1.params is None
+        assert obj2.action is name
+        assert obj2.params is params
+
     def test_BaseAction(self):
         assert action.BaseAction.abstract
 
