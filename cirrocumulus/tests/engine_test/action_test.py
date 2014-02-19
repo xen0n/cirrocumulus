@@ -51,7 +51,6 @@ class TestActionModule(Case):
         try:
             ValidAction()
         except:
-            raise
             assert False, 'concrete action class failed to instantiate'
 
     def test_MetaAction_invalid_action_without_name(self):
