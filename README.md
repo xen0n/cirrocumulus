@@ -1,5 +1,9 @@
 # 卷积云
 
+[![Build Status](https://travis-ci.org/xen0n/cirrocumulus.png?branch=master)](https://travis-ci.org/xen0n/cirrocumulus)
+[![Coverage Status](https://coveralls.io/repos/xen0n/cirrocumulus/badge.png?branch=master)](https://coveralls.io/r/xen0n/cirrocumulus?branch=master)
+
+
 ## 简介
 
 为江南听雨网设计的简易云部署管理方案.
