@@ -17,7 +17,7 @@ import abc
 # the PSF license.
 #
 ### START OF PYTHON STDLIB CODE
-class abstractclassmethod(classmethod):
+class abstractclassmethod(classmethod):  # pragma: no cover [py3]
     """
     A decorator indicating abstract classmethods.
 
@@ -41,7 +41,7 @@ class abstractclassmethod(classmethod):
         super(abstractclassmethod, self).__init__(callable)
 
 
-class abstractstaticmethod(staticmethod):
+class abstractstaticmethod(staticmethod):  # pragma: no cover [py3]
     """
     A decorator indicating abstract staticmethods.
 
@@ -72,12 +72,12 @@ class abstractstaticmethod(staticmethod):
 # 即使完全一样, 也总是优先使用标准库里的实现
 try:
     abstractclassmethod = abc.abstractclassmethod
-except AttributeError:
+except AttributeError:  # pragma: no cover [py3]
     pass
 
 try:
     abstractstaticmethod = abc.abstractstaticmethod
-except AttributeError:
+except AttributeError:  # pragma: no cover [py3]
     pass
 
 
