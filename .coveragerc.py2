@@ -11,6 +11,7 @@ omit =
 
 exclude_lines =
     pragma: no cover
+    pragma: no cover [py2]
     def __repr__
     raise NotImplementedError
     assert False,
