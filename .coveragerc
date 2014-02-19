@@ -1,10 +1,12 @@
 [run]
-source =  cirrocumulus
+source = cirrocumulus
 
 
 [report]
 omit =
     */python?.?/*
+    */lib-python/?.?/*
+    */lib_pypy/*
     */site-packages/nose/*
 
 exclude_lines =
