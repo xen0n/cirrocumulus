@@ -36,21 +36,19 @@ class TestActionModule(Case):
             raise
 
     def test_MetaAction_valid_action(self):
-        try:
-            class ValidAction(action.BaseAction):
-                name = 'dummy1'
+        # should validate
+        # 应该验证通过
+        class ValidAction(action.BaseAction):
+            name = 'dummy1'
 
-                def execute(self, executor, env):  # pragma: no cover
-                    return 0, None, env
-        except:  # pragma: no cover
-            assert False, 'correctly declared action class does not validate'
+            def execute(self, executor, env):  # pragma: no cover
+                return 0, None, env
 
         assert not ValidAction.abstract
 
-        try:
-            ValidAction(self.dummy1_template)
-        except:  # pragma: no cover
-            assert False, 'concrete action class failed to instantiate'
+        # should instantiate successfully
+        # 应该成功实例化
+        ValidAction(self.dummy1_template)
 
         try:
             ValidAction(self.dummy2_template)
@@ -93,17 +91,13 @@ class TestActionModule(Case):
             raise
 
     def test_MetaAction_valid_abstract_action(self):
-        try:
-            class ValidAbstractAction(action.BaseAction):
-                abstract = True
+        # should validate
+        # 应该验证通过
+        class ValidAbstractAction(action.BaseAction):
+            abstract = True
 
-                def execute(self, executor, env):  # pragma: no cover
-                    return 0, None, env
-        except:  # pragma: no cover
-            assert False, (
-                    'correctly declared abstract action class does not'
-                    ' validate'
-                    )
+            def execute(self, executor, env):  # pragma: no cover
+                return 0, None, env
 
         assert ValidAbstractAction.abstract
 
@@ -117,20 +111,16 @@ class TestActionModule(Case):
 
         # test subclassing
         # 测试继承
-        try:
-            class ValidSubclassedAction(ValidAbstractAction):
-                name = 'dummy2_1'
-        except:  # pragma: no cover
-            assert False, (
-                    'correctly declared action subclass does not validate'
-                    )
+        # should validate
+        # 应该验证通过
+        class ValidSubclassedAction(ValidAbstractAction):
+            name = 'dummy2_1'
 
         assert not ValidSubclassedAction.abstract
 
-        try:
-            ValidSubclassedAction(self.dummy2_1_template)
-        except TypeError:  # pragma: no cover
-            assert False, 'action subclass failed to instantiate'
+        # should instantiate successfully
+        # 应该成功实例化
+        ValidSubclassedAction(self.dummy2_1_template)
 
     def test_MetaAction_invalid_abstract_action_with_name(self):
         try:
