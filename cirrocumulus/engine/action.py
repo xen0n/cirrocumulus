@@ -5,7 +5,6 @@ from __future__ import unicode_literals, division, absolute_import
 from __future__ import print_function
 
 __all__ = [
-        'ActionTemplate',
         'BaseAction',
         ]
 
@@ -19,17 +18,6 @@ from ..util import compat
 _ABSTRACT_ACTION_CLASSES = weakref.WeakSet()
 
 log = logging.getLogger(__name__)
-
-
-class ActionTemplate(object):
-    def __init__(self, action, params=None):
-        self.action = action
-        self.params = params
-
-    def __repr__(self):
-        # native string
-        # 原生字符串
-        return str('ActionTemplate%s' % repr((self.action, self.params, )))
 
 
 class MetaAction(abc.ABCMeta):
@@ -90,8 +78,18 @@ class BaseAction(object):
     name = None
     abstract = True
 
-    def __init__(self):
-        pass
+    def __init__(self, template):
+        try:
+            act_name = template['$act']
+        except KeyError:
+            raise TypeError('action templates must contain action name')
+
+        if act_name != self.name:
+            raise TypeError("wrong class for action '%s'" % (act_name, ))
+
+        params = template.copy()
+        params.pop('$act')
+        self.params = params
 
     def __new__(cls, *args, **kwargs):
         # no instantiation of known abstract action classes allowed
@@ -100,14 +98,6 @@ class BaseAction(object):
             raise TypeError('cannot instantiate abstract action class')
 
         return super(BaseAction, cls).__new__(cls, *args, **kwargs)
-
-    @compat.abstractclassmethod
-    def instantiate(cls, template):
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def describe(self):
-        raise NotImplementedError
 
     @abc.abstractmethod
     def execute(self, executor, env):

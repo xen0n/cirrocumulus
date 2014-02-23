@@ -12,29 +12,23 @@ from cirrocumulus.engine import action
 class TestActionModule(Case):
     @classmethod
     def setup_class(cls):
-        pass
+        make_template = lambda name: {'$act': name, }
+
+        cls.dummy_template = make_template('dummy')
+        cls.dummy1_template = make_template('dummy1')
+        cls.dummy2_template = make_template('dummy2')
+        cls.dummy2_1_template = make_template('dummy2_1')
+        cls.invalid_template = {}
 
     @classmethod
     def teardown_class(cls):
         pass
 
-    def test_ActionTemplate_ctor(self):
-        name = 'test'
-        params = {}
-
-        obj1 = action.ActionTemplate(name)
-        obj2 = action.ActionTemplate(name, params)
-
-        assert obj1.action is name
-        assert obj1.params is None
-        assert obj2.action is name
-        assert obj2.params is params
-
     def test_BaseAction(self):
         assert action.BaseAction.abstract
 
         try:
-            action.BaseAction()
+            action.BaseAction(self.dummy_template)
             assert False, 'BaseAction should not be instantiable'
         except TypeError:
             pass
@@ -46,13 +40,6 @@ class TestActionModule(Case):
             class ValidAction(action.BaseAction):
                 name = 'dummy1'
 
-                @classmethod
-                def instantiate(cls, template):  # pragma: no cover
-                    return cls()
-
-                def describe(self):  # pragma: no cover
-                    return ''
-
                 def execute(self, executor, env):  # pragma: no cover
                     return 0, None, env
         except:  # pragma: no cover
@@ -61,20 +48,25 @@ class TestActionModule(Case):
         assert not ValidAction.abstract
 
         try:
-            ValidAction()
+            ValidAction(self.dummy1_template)
         except:  # pragma: no cover
             assert False, 'concrete action class failed to instantiate'
+
+        try:
+            ValidAction(self.dummy2_template)
+            assert False, 'action class instantiated with wrong action name'
+        except TypeError:
+            pass
+
+        try:
+            ValidAction(self.invalid_template)
+            assert False, 'action class instantiated without action name'
+        except TypeError:
+            pass
 
     def test_MetaAction_invalid_action_without_name(self):
         try:
             class InvalidActionWithoutName(action.BaseAction):
-                @classmethod
-                def instantiate(cls, template):  # pragma: no cover
-                    return cls()
-
-                def describe(self):  # pragma: no cover
-                    return ''
-
                 def execute(self, executor, env):  # pragma: no cover
                     return 0, None, env
 
@@ -88,13 +80,6 @@ class TestActionModule(Case):
         try:
             class InvalidActionWithWronglyTypedName(action.BaseAction):
                 name = b'illegal_name'
-
-                @classmethod
-                def instantiate(cls, template):  # pragma: no cover
-                    return cls()
-
-                def describe(self):  # pragma: no cover
-                    return ''
 
                 def execute(self, executor, env):  # pragma: no cover
                     return 0, None, env
@@ -112,13 +97,6 @@ class TestActionModule(Case):
             class ValidAbstractAction(action.BaseAction):
                 abstract = True
 
-                @classmethod
-                def instantiate(cls, template):  # pragma: no cover
-                    return cls()
-
-                def describe(self):  # pragma: no cover
-                    return ''
-
                 def execute(self, executor, env):  # pragma: no cover
                     return 0, None, env
         except:  # pragma: no cover
@@ -130,7 +108,7 @@ class TestActionModule(Case):
         assert ValidAbstractAction.abstract
 
         try:
-            ValidAbstractAction()
+            ValidAbstractAction(self.dummy_template)
             assert False, 'abstract action class should not be instantiable'
         except TypeError:
             pass
@@ -150,22 +128,15 @@ class TestActionModule(Case):
         assert not ValidSubclassedAction.abstract
 
         try:
-            ValidSubclassedAction()
+            ValidSubclassedAction(self.dummy2_1_template)
         except TypeError:  # pragma: no cover
             assert False, 'action subclass failed to instantiate'
 
     def test_MetaAction_invalid_abstract_action_with_name(self):
         try:
-            class InValidAbstractAction(action.BaseAction):
+            class InvalidAbstractAction(action.BaseAction):
                 name = 'dummy3'
                 abstract = True
-
-                @classmethod
-                def instantiate(cls, template):  # pragma: no cover
-                    return cls()
-
-                def describe(self):  # pragma: no cover
-                    return ''
 
                 def execute(self, executor, env):  # pragma: no cover
                     return 0, None, env
