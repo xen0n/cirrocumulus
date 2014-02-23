@@ -97,7 +97,9 @@ class BaseAction(object):
         if cls in _ABSTRACT_ACTION_CLASSES:
             raise TypeError('cannot instantiate abstract action class')
 
-        return super(BaseAction, cls).__new__(cls, *args, **kwargs)
+        # this __new__ is type's one, which does not accept any parameter
+        # 这个 __new__ 是 type 类型的, 不接受参数
+        return super(BaseAction, cls).__new__(cls)
 
     @abc.abstractmethod
     def execute(self, executor, env):
