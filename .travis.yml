@@ -18,7 +18,7 @@ install:
 
 before_script:
   # replace with the correct version of .coveragerc, when run under Python 3
-  - "[ \"x${TRAVIS_PYTHON_VERSION%.?}\" == \"x3\" ] && ( echo Switching .coveragerc to Python 3 version. ; rm .coveragerc && ln -s .coveragerc.py3 .coveragerc ) ; true"
+  - "if [[ \"x${TRAVIS_PYTHON_VERSION%.?}\" == \"x3\" ]]; then echo Switching .coveragerc to Python 3 version. ; rm .coveragerc && ln -s .coveragerc.py3 .coveragerc ) ; fi"
   - ls -l .coveragerc
 
 script: nosetests --with-coverage
