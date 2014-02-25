@@ -29,6 +29,15 @@ class TestActionModule(Case):
         except TypeError:
             pass
 
+    def test_BaseAction_action_name_consistency(self):
+        DummyAction = action_class('dummy_action_name')
+
+        # should instantiate successfully
+        # 应该成功实例化
+        DummyAction(action_template('dummy_action_name'))
+
+        assert_raises(TypeError, DummyAction, action_template('another_name'))
+
     def test_BaseAction_output_var_ctor(self):
         DummyOutputVarCtorAction = action_class('dummy_out_var_ctor_1')
         template = action_template('dummy_out_var_ctor_1', 'out_var')
