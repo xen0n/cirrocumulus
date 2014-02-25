@@ -29,14 +29,20 @@ class TestActionModule(Case):
         except TypeError:
             pass
 
+    def test_BaseAction_action_name_unregistered(self):
+        DummyAction = action_template('dummy_action_name_0')
+        assert_raises(TypeError, DummyAction, action_template('unregistered'))
+
     def test_BaseAction_action_name_consistency(self):
-        DummyAction = action_class('dummy_action_name')
+        DummyAction1 = action_class('dummy_action_name_1')
+        DummyAction2 = action_class('dummy_action_name_2')
 
         # should instantiate successfully
         # 应该成功实例化
-        DummyAction(action_template('dummy_action_name'))
+        DummyAction1(action_template('dummy_action_name_1'))
 
-        assert_raises(TypeError, DummyAction, action_template('another_name'))
+        template2 = action_template('dummy_action_name_2')
+        assert_raises(TypeError, DummyAction1, template2)
 
     def test_BaseAction_output_var_ctor(self):
         DummyOutputVarCtorAction = action_class('dummy_out_var_ctor_1')
